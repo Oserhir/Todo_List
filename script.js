@@ -70,3 +70,9 @@ function deleteTask(index) {
   localStorage.setItem("todoliststorage", JSON.stringify(tasks));
   showtask();
 }
+
+clearAll.addEventListener("click", () => {
+  tasks = [];
+  localStorage.clear();
+  showtask();
+});
