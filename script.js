@@ -8,6 +8,8 @@ const btnAdd = document.getElementsByClassName("fa-solid fa-circle-plus")[0]; //
 
 let tasks = [];
 
+showtask();
+
 // active - unactive the add button
 input_todo.addEventListener("keyup", () => {
   if (input_todo.value.trim() != 0) {
@@ -22,7 +24,7 @@ input_todo.addEventListener("keyup", () => {
 btnAdd.addEventListener("click", () => {
   let userData = input_todo.value; // Getting User input Value
   // Getting LocalStorage
-  let getLocalStorage = localStorage.getItem("todoliststorage");
+  let getLocalStorage = localStorage.getItem("todoliststorage"); // getting localStorage
   // Checking if LocalStorage = Null
   if (getLocalStorage == null) {
     tasks = []; // Create Blank ARRAYS
@@ -32,5 +34,38 @@ btnAdd.addEventListener("click", () => {
 
   tasks.push(userData); // add THE user
   localStorage.setItem("todoliststorage", JSON.stringify(tasks)); // transform json objet into json string
+  showtask();
   input_todo.value = "";
 });
+
+function showtask() {
+  // Getting LocalStorage
+  let getLocalStorage = localStorage.getItem("todoliststorage");
+
+  // Checking if LocalStorage = Null
+  if (getLocalStorage == null) {
+    tasks = [];
+  } else {
+    tasks = JSON.parse(getLocalStorage);
+  }
+
+  let task = "";
+  for (let i = tasks.length - 1; i >= 0; i--) {
+    task += `<li>
+       ${tasks[i]}
+       <div class="icons">
+         <span id="remove" onclick="deleteTask(${i})"   > <i class="fa-solid fa-trash-can"></i> </span>
+       </div>
+     </li>`;
+  }
+  count.innerText = tasks.length;
+  display.innerHTML = task;
+}
+
+function deleteTask(index) {
+  let getLocalStorage = localStorage.getItem("todoliststorage");
+  tasks = JSON.parse(getLocalStorage);
+  tasks.splice(index, 1);
+  localStorage.setItem("todoliststorage", JSON.stringify(tasks));
+  showtask();
+}
