@@ -58,6 +58,7 @@ function showtask() {
        </div>
      </li>`;
   }
+
   count.innerText = tasks.length;
   display.innerHTML = task;
 }
